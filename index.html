@@ -1,0 +1,452 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>HERE XYZ Studio &#43; Data Hub CLI &#43; QGIS: create your own map</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="here-xyz-studio-data-hub-cli-qgis-create-your-own-map"
+                  title="HERE XYZ Studio &#43; Data Hub CLI &#43; QGIS: create your own map"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Glossary" duration="0">
+        <p><strong>HERE XYZ Studio</strong> - interactive, visual, web-based application for accessing XYZ Hub Data and creating maps within minutes.</p>
+<p><strong>HERE Data Hub CLI</strong> - command line interface which uses an interactive command window to enter instructions.</p>
+<p><strong>XYZ Token Manager</strong> - lets you manage the access tokens for your spaces.</p>
+<p><strong>XYZ Hub Connector</strong> - official HERE QGIS plugin which allows to connect data between XYZ Studio and QGIS.</p>
+<p><strong>QGIS -  </strong>free and open-source cross-platform desktop geographic information system (GIS) application that supports viewing, editing, and analysis of geospatial data.</p>
+<p><strong>GIS (Geographic Information System )</strong> - system designed to capture, store, manipulate, analyze, manage, and present spatial or geographic data.</p>
+<p><strong>Shapefile/ ESRI Shapefile/ SHP</strong> - geospatial vector data format for geographic information system (GIS) software. The shapefile format can spatially describe vector features: points, lines, and polygons. Each item usually has attributes to describe it.</p>
+<p><strong>Attribute table</strong> - tabular information about shapefile.</p>
+<p><strong>Geographic coordinate system</strong> - enables every location on Earth to be specified by a set of numbers, letters or symbols. A common choice of coordinates is latitude, longitude and elevation. To specify a location on a plane requires a map projection.</p>
+<p><strong>GeoJSON</strong> - format for encoding a variety of geographic data structures, based on JSON.</p>
+<p><strong>JSON</strong> - open standard file format, and data interchange format, that uses human-readable text to store and transmit data objects consisting of attribute–value pairs and array data types (or any other serializable value).</p>
+<p><strong>CSV</strong> - delimited text file that uses a comma to separate values. Each line of the file is a data record. Each record consists of one or more fields, separated by commas. The use of the comma as a field separator is the source of the name for this file format. A CSV file typically stores tabular data (numbers and text) in plain text, in which case each line will have the same number of fields.</p>
+<p><strong>HTML</strong> - standard markup language for documents designed to be displayed in a web browser.</p>
+<p><strong>Hyperlink</strong> - reference to data that the user can follow by clicking or tapping.</p>
+<p><strong>Node.js</strong> - open-source, cross-platform, JavaScript runtime environment that executes JavaScript code outside of a web browser.</p>
+<p><strong>Command prompt/ cmd.exe</strong> - input field in a text-based user interface screen for an operating system or program.</p>
+<aside class="special"><p><strong>Source: </strong><a href="https://www.wikipedia.org/" target="_blank">wikipedia.org</a></p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <h2 is-upgraded><strong>Introduction</strong></h2>
+<p>This training was prepared to show functionalities of the HERE XYZ Studio together with QGIS. HERE XYZ Studio is an interactive, visual, web-based application for accessing XYZ Hub Data and creating maps within minutes. This tutorial doesn&#39;t require coding skills.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\b87c70bee48c4acb.png"></p>
+<h2 is-upgraded><strong>Training objectives</strong></h2>
+<p>In this tutorial, you&#39;re going to build a coronavirus map. Hence this is a trending topic right now around the globe, I will demonstrate how to use the power of XYZ Studio together with QGIS. In this tutorial, we&#39;ll create a coronavirus map for Poland.</p>
+<p> This map will:</p>
+<ul>
+<li>Display shapefiles (points and polygons)</li>
+<li>Be updated using QGIS plugin</li>
+<li>Display hyperlinks (popup windows)</li>
+<li>Allow you to style your layers any way you want it</li>
+</ul>
+<aside class="special"><p><strong>Useful materials:</strong></p>
+<ul>
+<li><a href="https://www.here.xyz/studio/" target="_blank">https://www.here.xyz/studio/</a></li>
+<li><a href="https://www.here.xyz/cli/" target="_blank">https://www.here.xyz/cli/</a></li>
+<li><a href="https://xyz.api.here.com/token-ui/index.html" target="_blank">https://xyz.api.here.com/token-ui/index.html</a></li>
+<li><a href="https://qgis.org/en/site/" target="_blank">https://qgis.org/en/site/</a></li>
+</ul>
+</aside>
+<h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
+<ul class="checklist">
+<li>How to create an account in XYZ Studio</li>
+<li>How to install HERE Data Hub CLI</li>
+<li>How to add large spatial data to a project using Data Hub CLI</li>
+<li>How to connect XYZ Studio with QGIS</li>
+<li>How to use XYZ Token Manager</li>
+<li>How to update shapefiles in QGIS and then pushing changes to your project in XYZ Studio (without shapefiles replacing)</li>
+<li>How to display hyperlinks</li>
+<li>How to display data on a map</li>
+<li>How to style your map</li>
+<li>How to publish your map</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Getting set up" duration="0">
+        <h2 is-upgraded><strong>Create an account in HERE Developer portal</strong></h2>
+<p>To create an account, please visit our site:</p>
+<p><a href="http://her.is/eeu" target="_blank"><paper-button class="colored" raised>HERE Developer</paper-button></a></p>
+<aside class="special"><p><strong>Note:</strong> If you already have a HERE Developer account please login.</p>
+</aside>
+<p>When your account is created, you can login to the HERE XYZ Studio:</p>
+<p><a href="https://xyz.here.com/studio/" target="_blank"><paper-button class="colored" raised>HERE XYZ Studio</paper-button></a></p>
+<h2 is-upgraded><strong>Install node.js</strong></h2>
+<aside class="special"><p><strong>Note:</strong> In this tutorial we are going to upload Shapefiles, which are larger files than GeoJSON or CSV. To do so, we need to use Data Hub CLI. </p>
+</aside>
+<p>Node.js is required to install HERE CLI. To use it, you should have npm installed. The best way is to go to <a href="https://nodejs.org/" target="_blank">nodejs.org</a> and install the appropriate package for your system. Download the package and install it normally.</p>
+<h2 is-upgraded><strong>Install HERE CLI</strong></h2>
+<p>Install the latest version of HERE CLI with following command:</p>
+<p><code>npm install -g @here/cli </code></p>
+<p>Type it in Node.js command prompt.</p>
+<h2 is-upgraded><strong>Configure HERE CLI</strong></h2>
+<p>HERE CLI needs to have access to your projects to help you work with your data. For that, you need to log in using your HERE developer account. You only need to do this once for a project.</p>
+<p><code>here configure account</code></p>
+<p>↑ Type it in Node.js command prompt.</p>
+<p>When prompted, enter your email and password that you use in the HERE Developer portal.</p>
+<aside class="special"><p><strong>Note:</strong> For more details visit <a href="https://www.here.xyz/cli/" target="_blank">https://www.here.xyz/cli/</a></p>
+</aside>
+<h2 is-upgraded><strong>Install QGIS</strong></h2>
+<p>Install the latest, stable version of QGIS.</p>
+<p><a href="https://qgis.org/en/site/forusers/download.html" target="_blank"><paper-button class="colored" raised><iron-icon icon="file-download"></iron-icon>Download QGIS</paper-button></a></p>
+<h2 is-upgraded><strong>Install QGIS XYZ Hub Connector plugin</strong></h2>
+<p>XYZ Hub Connector is an official HERE plugin dedicated to QGIS, a very user-friendly tool which helps to modify/update shapefiles between XYZ Studio and QGIS. </p>
+<p>‘How it works&#39; will be described later, for now please install the plugin in QGIS. To do this, go to <strong>Plugins -&gt; Manage and install plugins </strong>and search for ‘XYZ Hub Connector&#39; plugin. Click on the search result and install the plugin. It will be automatically added to your QGIS. </p>
+<p class="image-container"><img style="width: 67.00px" src="img\d3620a9cadf47dbe.png"></p>
+<p>↑ XYZ Hub Connector icons. </p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Creating new project" duration="0">
+        <h2 is-upgraded><strong>Create new project</strong></h2>
+<p>After first log in to the XYZ Studio, you won&#39;t see any projects. To create a new one, click <strong>Create new project </strong>button or click on the circle icon with + inside (which is located below <strong>Create new project</strong> button). </p>
+<p class="image-container"><img style="width: 624.00px" src="img\d8f02f5cef8e79c6.png"></p>
+<p>In the next  step you can give your map a name and a description. </p>
+<p class="image-container"><img style="width: 349.00px" src="img\6af5eec611a185ec.png"></p>
+<p>In this step you can also pick a base map. Feel free to pick the one you like the most, there are a few available at the moment. We will go with the one from the base maps provided by HERE. Please, keep <strong>Show labels</strong> ticked.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\d1294e8ba7eab989.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Preparing shapefiles in QGIS" duration="0">
+        <p>In this step, we are going to prepare shapefiles for our project. We will need input contour data. To access free data, visit the EUROSTAT website. </p>
+<aside class="special"><p><strong>Note:</strong> Free of charge shapefile data provided by EUROSTAT <a href="https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units" target="_blank">https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units</a></p>
+</aside>
+<aside class="warning"><p><strong>Attention:</strong> Use <strong>EPSG:4326 - WGS 84</strong> coordinate system</p>
+</aside>
+<p><strong>Add polygon shapefile to QGIS</strong></p>
+<p>Add downloaded shapefile to QGIS. Remove almost all fields from the attribute table, we are going to create new ones. </p>
+<aside class="special"><p><strong>Note:</strong>  Keep only existing field with the voivodeships names. </p>
+</aside>
+<aside class="warning"><p><strong>Attention:</strong> Don&#39;t leave created columns (fields) empty. Each column should be filled in by at least one row. XYZ Studio doesn&#39;t recognize empty fields. For this reason, fill created fields with template or random data. We will modify them later.</p>
+</aside>
+<p class="image-container"><img style="width: 624.00px" src="img\f15673624d84be65.png"></p>
+<p>↑ Shapefile provided by EUROSTAT, added to the QGIS.</p>
+<p>To display specific field (e.g. information about number of infected people) on a map in XYZ Studio, create this field in the attribute table of the polygon shapefile.</p>
+<aside class="special"><p><strong>Note: </strong>Keep in mind while creating fields in the attribute table, that QGIS supports only field names with <strong>max 10 characters</strong> long. </p>
+</aside>
+<p>We are going to create following fields:</p>
+<ul>
+<li>Voi - voivodeship, type: <strong>string</strong></li>
+<li>Status - this field informs whether voivodeship is infected or not, type: <strong>string</strong></li>
+<li>Infected - number of infected people, type: <strong>integer </strong></li>
+<li>Isolation - number of people in isolation, type: <strong>integer  </strong></li>
+<li>Source - data source (we will use direct hyperlinks), type: <strong>string</strong></li>
+<li>Hosp - number of hospitalized people, type: <strong>integer </strong></li>
+</ul>
+<p class="image-container"><img style="width: 620.00px" src="img\1b1e2d0d92cd9b57.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img\b153a67de1223e64.png"></p>
+<p>↑ Attribute table, ready to be filled in (information about voivodeship names saved from the original shapefile source - EUROSTAT, rest of the fields filled by template/random data - don&#39;t leave empty fields).</p>
+<p><strong>Add point shapefile to QGIS</strong></p>
+<p>Create a new point layer and add new fields to the attribute table:</p>
+<p>We are going to create following fields:</p>
+<ul>
+<li>City - cities, type: <strong>string</strong></li>
+<li>Infected - number of infected people, type: <strong>integer </strong></li>
+<li>Healed - number of healed people, type: <strong>integer  </strong></li>
+<li>Deaths - number of deaths, type: <strong>integer </strong></li>
+<li>Source - data source, type: <strong>string</strong></li>
+</ul>
+<p class="image-container"><img style="width: 624.00px" src="img\aebed2d5d48667d1.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img\12299f1c25836977.png"></p>
+<p>↑ Attribute table, ready to be filled in (fields filled by template/random data - don&#39;t leave empty fields).</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Adding data to the project" duration="0">
+        <p><a href="https://github.com/indykk90/coronavirusmap_data/archive/master.zip" target="_blank"><paper-button class="colored" raised><iron-icon icon="file-download"></iron-icon>Download example shapefiles </paper-button></a></p>
+<p>↑ Shapefiles prepared in the previous section.</p>
+<p>There are two ways of adding spatial data to the project:</p>
+<ul>
+<li>Directly by HERE XYZ Studio</li>
+<li>Using Data Hub CLI</li>
+</ul>
+<p>We are going to play with Shapefiles, so for this reason, Data Hub CLI is required. </p>
+<h2 is-upgraded><strong>Adding data using Data Hub CLI</strong></h2>
+<aside class="special"><p><strong>Note:</strong> For more information about Data Hub CLI, visit: <a href="https://developer.here.com/tutorials/using-the-xyz-cli/" target="_blank">https://developer.here.com/tutorials/using-the-xyz-cli/</a></p>
+</aside>
+<p>To add larger data to the HERE XYZ Studio, we need to use Data Hub CLI. First of all, open Node.js Command Prompt. </p>
+<p class="image-container"><img style="width: 624.00px" src="img\286419c4cd302003.png"></p>
+<aside class="special"><p><strong>Note:</strong> This step was mentioned previously, if you already provided your HERE credentials, skip this step and jump to the next one - uploading shapefiles.</p>
+</aside>
+<p>In the beginning, please provide HERE credentials. Enter your email credentials by typing:</p>
+<p><code>here configure account</code></p>
+<p>You will be prompted to enter your email address and password. Your email will be echoed, but there will be no feedback when you paste in your password. </p>
+<h2 is-upgraded><strong>Uploading shapefiles using Data Hub CLI</strong></h2>
+<p>Next step is to upload our first Shapefile (let&#39;s use previously prepared polygon shapefile - <strong>voivodeship_poland.shp</strong>), type:</p>
+<p><code>here xyz upload -f voivodeship_poland.shp</code></p>
+<p>You will be asked to provide a title and description for the new space.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\c6794b9bb775e619.png"></p>
+<p>After this, your shapefile will be uploaded.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\e46272bc3c1b49db.png"></p>
+<p>To upload another shapefiles (cities, hospitals etc.), follow the same rule.</p>
+<h2 is-upgraded><strong>Adding data to the XYZ project</strong></h2>
+<p>To add all uploaded data to our map, please click the <strong>Data</strong> icon located below the description of your project. </p>
+<p class="image-container"><img style="width: 624.00px" src="img\e04588dff28b9f9e.png"></p>
+<p>You will be redirected to the <strong>My Spaces</strong> section. Select all layers you want to add to the project and click the <strong>Add dataset </strong>button located in the bottom right corner. If you select more than 1 dataset, the button will change name to <strong>Add 1 dataset</strong>, <strong>Add 2 datasets</strong>, <strong>Add 3 datasets</strong> etc. </p>
+<p class="image-container"><img style="width: 624.00px" src="img\b063aee1898e09a2.png"></p>
+<p>Our map with added layers:</p>
+<p class="image-container"><img style="width: 624.00px" src="img\5f8bbb16b0b11321.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="QGIS plugin - modifying and uploading data" duration="0">
+        <h2 is-upgraded><strong>Connecting XYZ Studio with QGIS</strong></h2>
+<p>XYZ Token Manager allows connection between XYZ Studio and QGIS. </p>
+<p>To connect shapefiles from the XYZ Studio with QGIS, visit website provided below:</p>
+<aside class="special"><p><strong>Note:</strong> XYZ Token Manager: <a href="https://xyz.api.here.com/token-ui/index.html" target="_blank">https://xyz.api.here.com/token-ui/index.html</a></p>
+</aside>
+<p>Log in (use your XYZ Studio credentials) and select shapefiles uploaded in the previous step. Tick <strong>All</strong> option.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\8b53152e340ff241.png"></p>
+<p>When layers are ticked, scroll your page to the very bottom and click the <strong>Generate Token </strong>button. </p>
+<p class="image-container"><img style="width: 186.00px" src="img\8afce958ed4a8e7d.png"></p>
+<p>Provide a description for token and click the <strong>Generate Token </strong>button. </p>
+<p class="image-container"><img style="width: 624.00px" src="img\1bc9814a6667172.png"></p>
+<p>Token will be generated, click the<strong> Copy Token</strong> button and switch to QGIS.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\5ba546b2f3581a10.png"></p>
+<p>In QGIS, click the XYZ Hub Connection button .</p>
+<p class="image-container"><img style="width: 154.00px" src="img\ac02837f4897cf3c.png"></p>
+<p>New window displayed. Click the <strong>Manage Token</strong> button.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\b4a3d8c9bf8e27c1.png"></p>
+<p>Click the <strong>Add</strong> button and fill out two fields, Name and Token:</p>
+<ul>
+<li>Name: name for your token (depends on you)</li>
+<li>Token: paste a Token copied from the XYZ Token Manager</li>
+</ul>
+<p>Click <strong>Ok</strong>, select relevant Token from the list and click <strong>Ok</strong>.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\2a4c466c75ff5145.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img\f7e99b9efc560b92.png"></p>
+<p>Click the <strong>Use</strong> button. Relevant shapefiles will display. Click on each and then click the <strong>Load</strong> button (you have to add them one by one using the<strong> Load</strong> button). </p>
+<aside class="warning"><p><strong>Attention:</strong> Keep Mode as a static (below the <strong>Load</strong> button)! </p>
+</aside>
+<p class="image-container"><img style="width: 624.00px" src="img\dfda02ec49ef49.png"></p>
+<p>Congratulations! Shapefiles were added to the QGIS.</p>
+<aside class="special"><p><strong>Note:</strong> As you can see, polygons were split by single polygons and multi polygons. Don&#39;t worry, all is fine. </p>
+</aside>
+<h2 is-upgraded><strong>Editing and updating shapefiles in QGIS and XYZ Studio</strong></h2>
+<p>Now it&#39;s time to edit our data and push changes to the XYZ Studio. </p>
+<aside class="special"><p><strong>Note:</strong> To create a coronavirus map, we need a proper source. In this tutorial, we&#39;ll use official data provided by the Ministry of Health (Poland) and data collected from local media. </p>
+</aside>
+<p>First of all, we&#39;ll play with the polygon layer. </p>
+<p>According to the local media, not all voivodeships have been infected by coronavirus. Let&#39;s add relevant numbers to the attribute table of the polygon layer. As a source, provide a link to the local newspaper/ website.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\48e9d0269bf967d2.png"></p>
+<p>↑ Updated attribute table of the polygon layer.</p>
+<p>Our polygon shapefile is ready, now it&#39;s time to edit and update our point shapefile. For now, we have only one city added, capital of Poland - Warsaw. According to the data provided by the Ministry of Health (Poland), other cities have been also infected. Let&#39;s add them to the point shapefile. </p>
+<p class="image-container"><img style="width: 624.00px" src="img\4a7e435bab34d28b.png"></p>
+<p>Switch off visibility of the polygon layer (voivodeship) and add background to the map. </p>
+<aside class="special"><p><strong>Note:</strong> To add a background map to your QGIS project - install QuickMapServices plugin.</p>
+</aside>
+<p>Select the point layer (cities) and click the <strong>Toggle editing</strong> button (icon of pen). Now you can draw new points on the map.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\6dcd66610ac98387.png"></p>
+<p>Click on the infected city. Popup window (attribute table) will display. Fill out the fields:</p>
+<ul>
+<li>City</li>
+<li>Deaths</li>
+<li>Healed</li>
+<li>Source</li>
+<li>Infected</li>
+</ul>
+<p>Continue updating your point layer according to the data provided by your source.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\5da1f0dcbd8f6c71.png"></p>
+<p>↑ Updated attribute table of the point layer.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\ec83fabb488a1e7.png"></p>
+<p>When your map is ready to go, save your changes. Now it&#39;s time to push your changes to the XYZ Studio. To do this, select the layer you want to push (from the layers list) and click the highlighted button of cloud (<strong>Push changes</strong>). This icon is always located next to the <strong>XYZ Hub Connection</strong> button. </p>
+<p class="image-container"><img style="width: 113.00px" src="img\f8e77848190fca71.png"> </p>
+<p>↑ Push changes icon.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\11553d80e5e094f4.png"></p>
+<p>The green bar informs that data has been pushed successfully to the XYZ Studio. Repeat this step with all modified layers. </p>
+<p>XYZ Studio project has been updated! Congratulations!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Styling our project" duration="0">
+        <h2 is-upgraded><strong>Polygon layer</strong></h2>
+<p>Our project is ready for styling. This is our view after pushing modified shapefiles to the project. </p>
+<p class="image-container"><img style="width: 624.00px" src="img\147749c1e8d09ca7.png"></p>
+<p>In this step you can change colors, symbols, outline color and thickness as you wish. You can also display labels of each layer. </p>
+<p>Let&#39;s color voivodeships by using two colors. We&#39;ll split voivodeships by those infected and uninfected by coronavirus. Moreover, let&#39;s display each voivodeship name. </p>
+<p>To do this, we need to add a <strong>new style group</strong>. Click on the polygon layer (voivodeships), a new view will display. Click the <strong>+ Add new polygon style</strong> button. </p>
+<p class="image-container"><img style="width: 493.00px" src="img\f192b099c2358dc8.png"></p>
+<p>New window will appear. From the dropdown list select:</p>
+<ul>
+<li>Property:  <strong>status </strong></li>
+<li>Condition: <strong>equals</strong></li>
+<li>Value: <strong>infected</strong></li>
+</ul>
+<p>Provide also a name for your style rule. Click<strong> Ok</strong>.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\4ad4ce670a0f62c.png"></p>
+<p>When it&#39;s ready, all infected voivodeships will change color. To modify the color, click on the relevant style group.</p>
+<p class="image-container"><img style="width: 431.00px" src="img\76ec2e1411562643.png"></p>
+<p>A little task for you: Repeat this step and create a group for the uninfected voivodeships. :-)</p>
+<p>The result (voivodeships split by infected and uninfected):</p>
+<p class="image-container"><img style="width: 624.00px" src="img\aba53633cfc2846e.png"></p>
+<p>Now it&#39;s time to display labels. Let&#39;s display the voivodeship names. Switch on the <strong>labels</strong> button, which is located below <strong>Colors</strong>, and select text property as: void (this column keeps information about each voivodeship name). You can also style your labels (color, outline color etc.). </p>
+<p class="image-container"><img style="width: 422.00px" src="img\9ea9e9f33dd4b0ce.png"></p>
+<p>The result:</p>
+<p class="image-container"><img style="width: 624.00px" src="img\bfc3db7f04d2115f.png"></p>
+<p>Now it&#39;s time to decide what we want to show on a popup window. We can choose information we want to display by using the <strong>Cards section</strong>. </p>
+<p class="image-container"><img style="width: 512.00px" src="img\df2734082ccb651d.png"></p>
+<p>Click on the <strong>Cards</strong> and expand the dropdown. You will see the attribute table fields we&#39;ve created in QGIS. Move them up and down to decide what you want to show.</p>
+<aside class="special"><p><strong>Note:</strong> Fields located above the horizontal line will be displayed on a popup window.</p>
+</aside>
+<p> I recommend to show:</p>
+<ul>
+<li>Voi - voivodeships</li>
+<li>Infected - number of infected people</li>
+<li>Hosp - number of hospitalized people</li>
+<li>Isolation - number of people in isolation</li>
+<li>Source - data source</li>
+</ul>
+<p>Keep column <strong>Status</strong> on a side, because this one helps us only to display style groups (infected/uninfected). </p>
+<p class="image-container"><img style="width: 458.00px" src="img\8b8dc390bb9c5e66.png"></p>
+<p>The result:</p>
+<p class="image-container"><img style="width: 624.00px" src="img\dde612cc2f8f8c23.png"></p>
+<p>Click on the voivodeship. As you can see, all information provided by us in the attribute table display on the popup window. Moreover, users of our map also have access to a source link.</p>
+<aside class="special"><p><strong>Note: </strong>As you can see, titles are displayed from the attribute table. Keep it in mind while creating fields in the attribute table. Remember, QGIS supports only names with <strong>max 10 characters</strong>. </p>
+</aside>
+<h2 is-upgraded><strong>Point layer:</strong></h2>
+<p>Styling of the point layer + displaying information on a popup window works exactly the same as we did for polygons. </p>
+<p>Now here&#39;s a little task for you: repeat steps we&#39;ve done for the polygon layer and style your point layer. Moreover, modify your popup window to display necessary information.</p>
+<p>:-)</p>
+<aside class="special"><p><strong>Note: </strong>While styling points, you can display icons and markers. It&#39;s very intuitive so have fun! </p>
+</aside>
+<p><strong>Bookmarks</strong></p>
+<p>If you want to zoom your map to the borders of your country, create a bookmark. In the top right corner you will find the search bar. Type your country to zoom in.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\1b269cb9cf9afd6a.png"></p>
+<p>Now you can bookmark the current view. Provide a name for it and click enter.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\f8bacf53a9150546.png"></p>
+<p>We will need this for the future needs.</p>
+<p><strong>The result: coronavirus map of Poland</strong></p>
+<p class="image-container"><img style="width: 624.00px" src="img\c071bd3c075eabc6.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Publishing" duration="0">
+        <p>Before publishing, go to the settings page and select the bookmark we&#39;ve created in the previous step.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\2545c30d6bb1496f.png"></p>
+<p>This will zoom map to the country boundaries. </p>
+<p>Now it&#39;s time to publish our map. You can easily share a link to your map or copy &amp; paste a snippet of code that you can directly include on a web page or in a blog.</p>
+<p>By default, every map you create with HERE XYZ Studio is private and visible only to you until you decide to publish it.</p>
+<p>All you have to do to publish the map is to turn publishing on (you can turn it off anytime again as well if you wish). This button is located in the bottom left corner of your screen.</p>
+<p class="image-container"><img style="width: 347.00px" src="img\ebe18b66548e800f.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img\4802b930646ed227.png"></p>
+<p>When the map is published, you also see the URL where it can be reached. You can copy this and share it with people directly or you can link to it from somewhere like a blog or wiki page.</p>
+<p>You can also copy the EMBED code and use it directly in the code of your website or blog. It&#39;s a bit of HTML that will show your map directly on the page.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\31daaed5aa997d03.png"></p>
+<p>Share your map with the world! :-)</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Congratulations" duration="0">
+        <p>Congratulations, you&#39;ve successfully built your map using HERE XYZ Studio! </p>
+<p class="image-container"><img style="width: 624.00px" src="img\faec462d53797c81.png"></p>
+<p>Our project was just a simple example of what you can do using HERE XYZ Studio. We encourage you to dig into HERE XYZ Studio deeper and to publish more projects in the future. Make HERE XYZ Studio your favourite tool! </p>
+<aside class="special"><p><strong>For more details visit: </strong></p>
+<ul>
+<li><a href="https://www.here.xyz/studio/" target="_blank">https://www.here.xyz/studio/</a></li>
+<li><a href="https://developer.here.com/products/xyz" target="_blank">https://developer.here.com/products/xyz</a></li>
+<li><a href="https://www.here.com/" target="_blank">https://www.here.com/</a></li>
+</ul>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Bonus" duration="0">
+        <p>If you enjoy working with XYZ Studio and QGIS plugin, you can modify and develop your coronavirus map. Support your local neighborhood by adding information about hospitals, emergency points, medical institutions, organizations / NGOs and any other places where people may get help and support. </p>
+<p>I would like to share with you the same map but with additional information. On this map, you can find not only infected cities but also emergency points. Moreover, voivodeships are split by a range of infected people.</p>
+<aside class="special"><p><strong>Visit: </strong><a href="https://studio.here.com/viewer/?project_id=206688b5-113f-4d9d-a539-129359f4824d" target="_blank"><strong>https://studio.here.com/viewer/?project_id=206688b5-113f-4d9d-a539-129359f4824d</strong></a></p>
+<p><strong>Note</strong>: This map is done in Polish.</p>
+</aside>
+<p class="image-container"><img style="width: 624.00px" src="img\6b58f6119ba9a0e9.png"></p>
+<p>You may ask how to get relevant data to enrich your map. There are many ways, do a little research, many datasets are provided by official governmental departments/ offices in your country. </p>
+<p>You can also create your own dataset, for example by using the HERE WeGo web mapping and navigation service. </p>
+<p>Let&#39;s collect a dataset of hospitals by using collections from HERE WeGo.  </p>
+<h2 is-upgraded><strong>Here WeGo: collections</strong></h2>
+<p>First of all, visit the website provided below and create an account (if you already have an account - log in).</p>
+<aside class="special"><p><strong>Website</strong>: <a href="https://wego.here.com/" target="_blank">https://wego.here.com/</a></p>
+</aside>
+<p>Let&#39;s collect information about hospitals in Warsaw. Simply type a phrase <em>hospital</em> and you will see all available hospitals in Warsaw.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\3d9c47f7a0138e53.png"></p>
+<p>Right click on the hospital you want to collect and select <strong>Collect this location</strong>.</p>
+<p class="image-container"><img style="width: 457.50px" src="img\839f7c8f2debd945.png"></p>
+<p>Provide a name and create a new collection.</p>
+<p class="image-container"><img style="width: 460.50px" src="img\58e1bf2b6abb92e0.png"></p>
+<p>Click on the already created collection and add your first POI to the list.</p>
+<p class="image-container"><img style="width: 486.50px" src="img\b5f29aafdd84b731.png"></p>
+<p>Collect more POIs and add them to your list. </p>
+<h2 is-upgraded><strong>Exporting collections to JSON</strong></h2>
+<p>To export your collections, click the link provided below. Right click on a page and save it as ‘hospitals.json&#39;.</p>
+<aside class="special"><p><strong>Note: </strong><a href="https://wego.here.com/api/collections/favoritePlace" target="_blank">https://wego.here.com/api/collections/favoritePlace</a></p>
+</aside>
+<p>Now you need to convert JSON to CSV. To do this, visit the link provided below. It will show you your data in tabular format. Save it as ‘hospitals.csv&#39;.</p>
+<aside class="special"><p><strong>Note: </strong><a href="https://json-csv.com/" target="_blank">https://json-csv.com/</a></p>
+</aside>
+<p>Open QGIS, create a new empty project and go to <strong>Layer </strong>-&gt; <strong>Add Layer </strong>-&gt; <strong>Add Delimited Text Layer</strong>. New window will appear.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\9faebfd5b89d94ee.png"></p>
+<p>Upload the ‘hospitals.csv&#39; file and click <strong>Add</strong>.</p>
+<aside class="warning"><p><strong>Attention:</strong> Provide information about<strong> X field</strong> (longitude) and <strong>Y field</strong> (latitude). </p>
+</aside>
+<p class="image-container"><img style="width: 624.00px" src="img\563292849ddd078.png"></p>
+<p>Your csv file has been added to QGIS.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\b852398612b2237c.png"></p>
+<p>Export new layer as ESRI Shapefile.</p>
+<p class="image-container"><img style="width: 624.00px" src="img\6b501a41a8f28dae.png"></p>
+<aside class="warning"><p><strong>Attention:</strong> Use <strong>EPSG:4326 - WGS 84</strong> coordinate system</p>
+</aside>
+<p>Upload the newly created shapefile to the XYZ Studio using Data Hub CLI (chapter no. 5 of this tutorial).</p>
+<p class="image-container"><img style="width: 624.00px" src="img\465f891687f2d3c9.png"></p>
+<p>Display hospitals on your map! </p>
+<p>Think out of the box! Enjoy and good luck! :-)</p>
+<aside class="special"><p>If you have any questions, you can reach us by email:</p>
+<ul>
+<li>Krzysztof Indelak: <a href="mailto:krzysztof.indelak@here.com" target="_blank">krzysztof.indelak@here.com</a></li>
+<li>Maksim Makarov <a href="mailto:maksim.makarov@here.com" target="_blank">maksim.makarov@here.com</a></li>
+</ul>
+<p>We are also open for all remarks and comments.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
